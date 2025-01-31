@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from bookapp import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -24,6 +26,12 @@ urlpatterns = [
     path("verify/otp/",views.VerifyEmailView.as_view(),name="verify-email"),
     path("signin/",views.LogInView.as_view(),name="signin"),
     path("index/",views.BookListView.as_view(),name="book-list"),
+    path("books/<int:pk>/",views.BookDetailView.as_view(),name="book-detail"),
+    path("books/<int:pk>/cart/add/",views.AddtoCartView.as_view(),name="addtocart"),
+    path("cart/summary/",views.CartSummaryView.as_view(),name='cart-summary'),
+     path("books/<int:pk>/remove/",views.BasketItemDeleteView.as_view(),name="book-delete"),
+    path("place/order/",views.PlaceOrderView.as_view(),name="place-order"),
+    path("order/summary/",views.OrderSummaryView.as_view(),name="order-summary"),
     
     
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

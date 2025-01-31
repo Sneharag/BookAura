@@ -58,6 +58,8 @@ class Book(BaseModel):
 
     cover_image = models.ImageField(upload_to="book_covers", blank=True, null=True)
 
+    
+
     def __str__(self):
 
         return self.title
@@ -88,6 +90,10 @@ class BasketItem(BaseModel):
 
     basket_object=models.ForeignKey(Basket,on_delete=models.CASCADE,related_name="cart_item")
 
+    @property
+    def item_total(self):
+
+        return self.book_object.price*self.quantity
 
 def create_basket(sender,instance,created,**kwargs):
 
@@ -96,4 +102,54 @@ def create_basket(sender,instance,created,**kwargs):
         Basket.objects.create(owner=instance)
 
 post_save.connect(create_basket,User)
+
+
+
+class Order(BaseModel):
+
+    customer=models.ForeignKey(User,on_delete=models.CASCADE,related_name="orders")
+
+    address=models.TextField()
+
+    phone=models.CharField(max_length=20)
+
+    PAYMENT_OPTIONS=(
+        ("COD","COD"),
+        ("ONLINE","ONLINE")
+    )
+
+    payment_method=models.CharField(max_length=15,choices=PAYMENT_OPTIONS,default="COD")
+
+    rzp_order_id=models.CharField(max_length=100,null=True)
+
+    is_paid=models.BooleanField(default=False)
+
+    @property
+    def order_total(self):
+
+        total=sum([oi.item_total for oi in self.orderitems.all()])
+
+        return total
+
+
+class OrderItem(BaseModel):
+
+    order_object=models.ForeignKey(
+                                   Order,on_delete=models.CASCADE,
+                                   related_name="orderitems"
+                                   )
+    
+    book_object=models.ForeignKey(Book,on_delete=models.CASCADE)
+
+    quantity=models.PositiveIntegerField(default=1)
+
+    price=models.FloatField()
+
+    @property
+    def item_total(self):
+
+        return self.price*self.quantity
+
+    
+
 

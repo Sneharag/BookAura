@@ -2,7 +2,7 @@ from django import forms
 
 from django.contrib.auth.forms import UserCreationForm
 
-from bookapp.models import User
+from bookapp.models import User,Order
 
 class SignUpForm(UserCreationForm):
 
@@ -18,4 +18,12 @@ class LoginForm(forms.Form):
     username=forms.CharField(widget=forms.TextInput(attrs={"class":"form-control mb-3"}))
 
     password=forms.CharField(widget=forms.TextInput(attrs={"class":"form-control mb-3"}))
+
+class OrderForm(forms.ModelForm):
+
+    class Meta:
+
+        model=Order
+
+        fields=["address","phone","payment_method"]
 
