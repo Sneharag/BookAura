@@ -32,6 +32,6 @@ urlpatterns = [
      path("books/<int:pk>/remove/",views.BasketItemDeleteView.as_view(),name="book-delete"),
     path("place/order/",views.PlaceOrderView.as_view(),name="place-order"),
     path("order/summary/",views.OrderSummaryView.as_view(),name="order-summary"),
-    
+    path("payment/verify/",views.PaymentVerificationView.as_view(),name="payment-verify"),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
