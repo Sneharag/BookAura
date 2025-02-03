@@ -2,173 +2,110 @@
 
 {%block main_block%}
 
-<!-- <section>
-    <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-      <header class="text-center">
-        <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Product Collection</h2>
+{%load static%}
+
   
-        <p class="mx-auto mt-4 max-w-md text-gray-500">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque praesentium cumque iure
-          dicta incidunt est ipsam, officia dolor fugit natus?
-        </p>
-      </header>
-  
-      <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-       {%for b in data%}
-       <li>
-        <a href="{%url 'book-detail' b.id%}" class="group block overflow-hidden">
-         {%if b.cover_image%}
+  <!-- Banner Section -->
+  <section class=" text-white ">
+    <div class="text-center">
+        <img src="{% static 'images/banner1.jpg' %}" alt="Banner Image" class="w-full h-64 max-w-full">
+    </div>
+</section>
 
-         <img
-         src="{{b.cover_image.url}}"
-         alt=""
-         class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-       />
-       {%else%}
-       <img
-       src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-       alt=""
-       class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-     />
-
-
-         {%endif%}
-
-          <div class="relative bg-white pt-3">
-            <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-              {{b.title}}
-            </h3>
-
-            <p class="mt-2">
-              <span class="sr-only"> Regular Price </span>
-
-              <span class="tracking-wider text-gray-900"> {{b.price}} </span>
-            </p>
+  <!-- Quick Features -->
+  <section class="py-2 bg-gray-50">
+      <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+          <div>
+              <h3 class="text-lg font-medium text-teal-700">Quick Delivery</h3>
+              <p class="text-gray-500">Get your books delivered fast.</p>
           </div>
-        </a>
-      </li>
+          <div>
+              <h3 class="text-lg font-medium text-teal-700">Best Deals</h3>
+              <p class="text-gray-500">Find amazing discounts.</p>
+          </div>
+          <div>
+              <h3 class="text-lg font-medium text-teal-700">Secured Payments</h3>
+              <p class="text-gray-500">Your transactions are safe with us.</p>
+          </div>
+      </div>
+  </section>
 
-       {%endfor%}
-      </ul>
-    </div>
-  </section> -->
+  <!-- Best Sellers -->
+  <section class="py-6">
+      <div class="container mx-auto">
+        <div class="flex justify-between items-center mb-1">
+          <h2 class="text-2xl font-bold">Current Bestsellers</h2>
+          <a href="#" class="text-blue-600">View All</a>
+      </div>
+                <div class="mx-auto max-w-screen-xl px-4 py-2 sm:px-6 sm:py-8 lg:px-8">
+              <ul class="mt-1 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+                {%for b in data|slice:":5" %}
+                  <li>
+                      <a href="{%url 'book-detail' b.id%}" class="group block overflow-hidden">
+                        {%if b.cover_image%}
+       
+                              <img
+                              src="{{b.cover_image.url}}"
+                              alt=""
+                              style="height: 300px; width: 100%; object-fit: cover;"
+                              class="h-[300px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
+                              />
+                        {%else%}
+                            <img
+                            src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                            alt=""
+                            style="height: 300px; width: 100%; object-fit: cover;"
+                            class="h-[300px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
+                            />
+                        {%endif%}
+                          <div class="relative bg-white pt-3">
+                              <h3 class="text-l fw-semibold text-black-700 group-hover:underline group-hover:underline-offset-4">
+                                  {{b.title}}
+                              </h3>
+                              <p class="mt-2">
+                                  <span class="text-s text-gray-700">₹{{b.price}}</span>
+                              </p>
+                          </div>
+                      </a>
+                      
+                  </li>
+                  {%endfor%}
+                  <!-- Repeat for other books -->
+              </ul>
+          </div>
+      </div>
+  </section>
 
+  <!-- Famous Authors -->
+  <section class="py-4 pb-9 bg-gray-50">
+      <div class="container mx-auto">
+          <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Famous Authors</h2>
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-2 text-center">
+              <div>
+                  <img src="{%static 'images/michele.jpeg'%}" alt="Author" class="w-28 h-28 object-cover rounded-full mx-auto mb-4"/>
+                  <h3 class="text-lg font-medium">Michele Obama</h3>
+              </div>
+              <div>
+                  <img src="{%static 'images/madavikutti.jpg'%}" alt="Author" class="w-28 h-28 object-cover rounded-full mx-auto mb-4"/>
+                  <h3 class="text-lg font-medium">Madhavikutty</h3>
+              </div>
+              <div>
+                  <img src="{%static 'images/chetan bagat.jpg'%}" alt="Author" class="w-28 h-28 object-cover rounded-full mx-auto mb-4"/>
+                  <h3 class="text-lg font-medium">Chetan Bagat</h3>
+              </div>
+              <div>
+                  <img src="{%static 'images/mt vasudevn.jpg'%}" alt="Author" class="w-28 h-28 object-cover rounded-full mx-auto mb-4"/>
+                  <h3 class="text-lg font-medium">M T Vasudevan Nair</h3>
+              </div>
+              <div>
+                  <img src="{%static 'images/jayshetty.jpg'%}" alt="Author" class="w-28 h-28 object-cover rounded-full mx-auto mb-4"/>
+                  <h3 class="text-lg font-medium">Jay Shetty</h3>
+              </div>
+              <!-- Repeat for other authors -->
+          </div>
+      </div>
+  </section>
 
-<!-- Banner Section -->
-<section class="bg-blue-700 text-white py-10">
-    <div class="container mx-auto text-center">
-        <h2 class="text-4xl font-semibold">SPECIAL 50% OFF</h2>
-        <p class="mt-4">For Our Student Community</p>
-        <button class="mt-6 px-6 py-3 bg-white text-blue-700 font-medium rounded hover:bg-gray-200">Get the Deal</button>
-    </div>
-</section>
+  
 
-<!-- Quick Features -->
-<section class="py-12 bg-gray-50">
-    <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-        <div>
-            <h3 class="text-lg font-medium text-blue-700">Quick Delivery</h3>
-            <p class="text-gray-500">Get your books delivered fast.</p>
-        </div>
-        <div>
-            <h3 class="text-lg font-medium text-blue-700">Best Deals</h3>
-            <p class="text-gray-500">Find amazing discounts.</p>
-        </div>
-        <div>
-            <h3 class="text-lg font-medium text-blue-700">Secured Payments</h3>
-            <p class="text-gray-500">Your transactions are safe with us.</p>
-        </div>
-    </div>
-</section>
-
-<!-- Best Sellers -->
-<section class="py-12">
-    <div class="container mx-auto">
-        <h2 class="text-2xl font-semibold text-center text-gray-800 mb-8">Current Bestsellers</h2>
-        <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-            <!-- Book Card -->
-            <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {%for b in data%}
-              <li>
-               <a href="{%url 'book-detail' b.id%}" class="group block overflow-hidden">
-                {%if b.cover_image%}
-       
-                <img
-                src="{{b.cover_image.url}}"
-                alt=""
-                class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-              />
-              {%else%}
-              <img
-              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-              alt=""
-              class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-            />
-       
-       
-                {%endif%}
-       
-                 <div class="relative bg-white pt-3">
-                   <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                     {{b.title}}
-                   </h3>
-       
-                   <p class="mt-2">
-                     <span class="sr-only"> Regular Price </span>
-       
-                     <span class="tracking-wider text-gray-900"> ₹{{b.price}} </span>
-                   </p>
-                 </div>
-               </a>
-             </li>
-       
-              {%endfor%}
-             </ul>
-            <!-- Repeat for other books -->
-        </div>
-    </div>
-</section>
-
-<!-- Famous Authors -->
-<section class="py-12 bg-gray-50">
-    <div class="container mx-auto">
-        <h2 class="text-2xl font-semibold text-center text-gray-800 mb-8">Famous Authors</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <!-- Author Card -->
-            <div>
-                <img src="https://via.placeholder.com/100" alt="Author" class="w-24 h-24 object-cover rounded-full mx-auto mb-4">
-                <h3 class="text-lg font-medium">Author Name</h3>
-                <p class="text-gray-500">Profession</p>
-            </div>
-            <!-- Repeat for other authors -->
-        </div>
-    </div>
-</section>
-
-<!-- Footer -->
-<footer class="bg-gray-800 text-white py-8">
-    <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-        <div>
-            <h3 class="text-lg font-semibold">About</h3>
-            <p class="mt-2 text-gray-400">DC Books started in 1974...</p>
-        </div>
-        <div>
-            <h3 class="text-lg font-semibold">Links</h3>
-            <ul class="mt-2 text-gray-400">
-                <li><a href="#" class="hover:text-white">Authors</a></li>
-                <li><a href="#" class="hover:text-white">Contact Us</a></li>
-                <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
-            </ul>
-        </div>
-        <div>
-            <h3 class="text-lg font-semibold">Follow Us</h3>
-            <div class="flex justify-center md:justify-start mt-2 space-x-4">
-                <a href="#" class="text-gray-400 hover:text-white">Facebook</a>
-                <a href="#" class="text-gray-400 hover:text-white">Twitter</a>
-                <a href="#" class="text-gray-400 hover:text-white">Instagram</a>
-            </div>
-        </div>
-    </div>
-    <div class="text-center text-gray-500 mt-8">&copy; 2024 Current Books India Pvt. Ltd. All rights reserved.</div>
-</footer>
 {%endblock%}

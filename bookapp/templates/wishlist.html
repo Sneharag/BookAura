@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block main_block %}
+
+<div class="relative bg-white from-primary-50 to-white dark:from-gray-800 dark:to-gray-900">
+    <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl font-extrabold text-center text-teal-800 mb-8 animate-bounce-slow">
+            My Wishlist
+        </h1>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <!-- Product Cards with Enhanced Design -->
+            {% for i in wishlistitems %}
+            <div class="bg-white rounded-lg shadow-lg transform transition-all hover:scale-105 hover:shadow-2xl">
+                <div class="relative">
+                    {% if i.book_object.cover_image %}
+                    <img
+                        src="{{ i.book_object.cover_image.url }}"
+                        alt="{{ i.book_object.title }}"
+                        class="h-[300px] w-full object-cover rounded-t-lg transition duration-500"
+                    />
+                    {% else %}
+                    <img
+                        src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                        alt="{{ i.book_object.title }}"
+                        class="h-[300px] w-full object-cover rounded-t-lg transition duration-500"
+                    />
+                    {% endif %}
+                    <!-- <div class="absolute top-4 left-4 p-2 bg-primary-800 text-white rounded-full">
+                        <p class="text-xs font-semibold">Wishlist</p>
+                    </div> -->
+                </div>
+                <div class="p-2">
+                    <h3 class="text-xl font-semibold text-teal-800">{{ i.book_object.title }}</h3>
+                    <!-- <p class="mt-2 text-sm text-teal-600 dark:text-teal-300">{{ i.book_object.summary|truncatewords:15 }}</p> -->
+                    <div class="flex justify-between items-center mt-2">
+                        <p class="text-xl font-bold text-teal-600 dark:text-teal-400">₹{{ i.book_object.price }}</p>
+                        <form action="{% url 'addtocart' i.book_object.id%}" method="post">
+                            {%csrf_token%}
+                            <button class="mt-4 bg-teal-500 text-white py-2 px-4 rounded-lg hover:bg-teal-600 transition-colors focus:outline-none">
+                                Add to Cart
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -13,13 +13,19 @@
         <div class="min-w-0 flex-1 space-y-8">
 
           <div class="space-y-4">
-            <h2 class="text-xl font-semibold text-gray-900 light:text-white">Delivery Details</h2>
+            <h2 class="text-xl font-semibold text-gray-900 light:text-white">Select Delivery Address</h2>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-1 border px-4 py-4 sm:px-6 shadow rounded">
-                <div>
-                    <label for="address" class="mb-2 block text-sm font-medium text-gray-900 light:text-white"> Address <span class="text-red-500">*</span> </label>
-                    <textarea id="address" name="address" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 light:border-gray-600 light:bg-gray-700 light:text-white light:placeholder:text-gray-400 light:focus:border-primary-500 light:focus:ring-primary-500" placeholder="Enter Your Full Address"></textarea>
-                </div>
+              {% for address in addresses %}
+              <label>
+                  <input type="radio" name="selected_address" value="{{ address.id }}" required>
+                  {{ address.street }}, {{ address.city }}, {{ address.state }}, {{ address.pincode }}, {{ address.country }}
+              </label><br>
+          {% empty %}
+              <p>No addresses found. Please add an address.</p>
+          {% endfor %}
+
+          <a href="{% url 'add-address' %}"><button type="button" class="bg-teal-600 p-2 rounded text-white px-3">Add New Address</button></a>
                 <!-- <div>
                     <label for="your_email" class="mb-2 block text-sm font-medium text-gray-900 light:text-white"> Your email* </label>
                     <input type="email" id="your_email" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 light:border-gray-600 light:bg-gray-700 light:text-white light:placeholder:text-gray-400 light:focus:border-primary-500 light:focus:ring-primary-500" placeholder="name@flowbite.com" required />
@@ -93,7 +99,7 @@
         </div>
 
           <!-- order summary start -->
-          <h2 class="text-xl font-semibold text-gray-900 light:text-white">Order Summary</h2>
+          <h2 class="text-l font-semibold text-gray-900 light:text-white">Order Summary</h2>
           <div class="space-y-3 border bg-white px-2 py-4 sm:px-6 shadow rounded">
            {%for bi in items%}
 
@@ -121,52 +127,6 @@
           </div>
           <!-- order summary end -->
   
-
-  
-          <!-- <div class="space-y-4">
-            <h3 class="text-xl font-semibold text-gray-900 light:text-white">Delivery Methods</h3>
-  
-            <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 light:border-gray-700 light:bg-gray-800">
-                <div class="flex items-start">
-                  <div class="flex h-5 items-center">
-                    <input id="dhl" aria-describedby="dhl-text" type="radio" name="delivery-method" value="" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 light:border-gray-600 light:bg-gray-700 light:ring-offset-gray-800 light:focus:ring-primary-600" checked />
-                  </div>
-  
-                  <div class="ms-4 text-sm">
-                    <label for="dhl" class="font-medium leading-none text-gray-900 light:text-white"> ₹15 - DHL Fast Delivery </label>
-                    <p id="dhl-text" class="mt-1 text-xs font-normal text-gray-500 light:text-gray-400">Get it by Tommorow</p>
-                  </div>
-                </div>
-              </div>
-  
-              <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 light:border-gray-700 light:bg-gray-800">
-                <div class="flex items-start">
-                  <div class="flex h-5 items-center">
-                    <input id="fedex" aria-describedby="fedex-text" type="radio" name="delivery-method" value="" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 light:border-gray-600 light:bg-gray-700 light:ring-offset-gray-800 light:focus:ring-primary-600" />
-                  </div>
-  
-                  <div class="ms-4 text-sm">
-                    <label for="fedex" class="font-medium leading-none text-gray-900 light:text-white"> Free Delivery - FedEx </label>
-                    <p id="fedex-text" class="mt-1 text-xs font-normal text-gray-500 light:text-gray-400">Get it by Friday, 13 Dec 2023</p>
-                  </div>
-                </div>
-              </div>
-  
-              <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 light:border-gray-700 light:bg-gray-800">
-                <div class="flex items-start">
-                  <div class="flex h-5 items-center">
-                    <input id="express" aria-describedby="express-text" type="radio" name="delivery-method" value="" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 light:border-gray-600 light:bg-gray-700 light:ring-offset-gray-800 light:focus:ring-primary-600" />
-                  </div>
-  
-                  <div class="ms-4 text-sm">
-                    <label for="express" class="font-medium leading-none text-gray-900 light:text-white"> ₹49 - Express Delivery </label>
-                    <p id="express-text" class="mt-1 text-xs font-normal text-gray-500 light:text-gray-400">Get it today</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
 
         </div>
 
@@ -211,27 +171,6 @@
                     </div>
       
                   </div>
-      
-                  <!-- <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 light:border-gray-700 light:bg-gray-800">
-                    <div class="flex items-start">
-                      <div class="flex h-5 items-center">
-                        <input id="paypal-2" aria-describedby="paypal-text" type="radio" name="payment-method" value="" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 light:border-gray-600 light:bg-gray-700 light:ring-offset-gray-800 light:focus:ring-primary-600" />
-                      </div>
-      
-                      <div class="ms-4 text-sm">
-                        <label for="paypal-2" class="font-medium leading-none text-gray-900 light:text-white"> Paypal account </label>
-                        <p id="paypal-text" class="mt-1 text-xs font-normal text-gray-500 light:text-gray-400">Connect to your account</p>
-                      </div>
-                    </div>
-      
-                    <div class="mt-4 flex items-center gap-2">
-                      <button type="button" class="text-sm font-medium text-gray-500 hover:text-gray-900 light:text-gray-400 light:hover:text-white">Delete</button>
-      
-                      <div class="h-3 w-px shrink-0 bg-gray-200 light:bg-gray-700"></div>
-      
-                      <button type="button" class="text-sm font-medium text-gray-500 hover:text-gray-900 light:text-gray-400 light:hover:text-white">Edit</button>
-                    </div>
-                  </div> -->
                 </div>
               </div>
             <!-- payment method end -->
@@ -241,11 +180,6 @@
               <dl class="flex items-center justify-between gap-4 py-3">
                 <dt class="text-base font-normal text-gray-500 light:text-gray-400">Subtotal</dt>
                 <dd class="text-base font-medium text-gray-900 light:text-white">₹{{total}}.00</dd>
-              </dl>
-  
-              <dl class="flex items-center justify-between gap-4 py-3">
-                <dt class="text-base font-normal text-gray-500 light:text-gray-400">Savings</dt>
-                <dd class="text-base font-medium text-green-500">0</dd>
               </dl>
   
               <dl class="flex items-center justify-between gap-4 py-3">
@@ -265,7 +199,8 @@
             </div>
 
             <div class="space-y-3 mt-4">
-              <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-gray-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-300 light:bg-gray-600 light:hover:bg-gray-700 light:focus:ring-gray-800">Proceed to Payment</button>
+              <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-gray-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-300 light:bg-gray-600 light:hover:bg-gray-700 light:focus:ring-gray-800">
+                Proceed to Payment</button>
             </div>
           </div>
         </div>

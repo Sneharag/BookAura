@@ -120,6 +120,8 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -133,3 +135,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'sneharag101@gmail.com'
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
+AUTHENTICATION_BACKENDS=[
+    "django.contrib.auth.backends.ModelBackend",
+    "bookapp.authentication.EmailBackend"
+]

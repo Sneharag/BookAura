@@ -1,10 +1,10 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 
 from django.views.generic import View
 
-from bookapp.forms import SignUpForm,LoginForm,OrderForm
+from bookapp.forms import SignUpForm,LoginForm,OrderForm,UserProfileForm,AddressForm
 
-from bookapp.models import User,Book,BasketItem,OrderItem,Order
+from bookapp.models import User,Book,BasketItem,OrderItem,Order,WishlistItem,Address,UserProfile
 
 from django.core.mail import send_mail
 
@@ -15,6 +15,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.views.decorators.csrf import csrf_exempt
 
 from django.utils.decorators import method_decorator
+
+from django.contrib import messages
 
 from decouple import config
 
@@ -134,7 +136,6 @@ class LogInView(View):
             
         return render(request,self.template_name,{"form":form_instance})
 
-
 class BookListView(View):
 
     template_name="index.html"
@@ -145,7 +146,6 @@ class BookListView(View):
 
         return render(request,self.template_name,{"data":qs})
     
-
 class BookDetailView(View):
 
     template_name="book_detail.html"
@@ -206,7 +206,6 @@ class BasketItemDeleteView(View):
 
         return redirect("cart-summary")
     
-
 import razorpay
 class PlaceOrderView(View):
 
@@ -218,11 +217,15 @@ class PlaceOrderView(View):
 
         form_instance=self.form_class()
 
+        user_profile = request.user.userprofile
+
+        addresses = Address.objects.filter(user_profile=user_profile)
+
         qs=request.user.cart.cart_item.filter(is_order_placed=False)
 
         total=sum([bi.item_total for bi in qs])
 
-        return render(request,self.template_name,{"form":form_instance,"items":qs,"total":total})
+        return render(request,self.template_name,{"form":form_instance,"items":qs,"total":total,"addresses":addresses})
     
     def post(self,request,*args,**kwargs):
 
@@ -234,7 +237,15 @@ class PlaceOrderView(View):
 
             form_instance.instance.customer=request.user
 
-            order_instance=form_instance.save()
+            selected_address_id=form_data.get("selected_address")
+
+            selected_address=Address.objects.get(id=selected_address_id,user_profile=request.user.userprofile)
+
+            order_instance=form_instance.save(commit=False)
+
+            order_instance.address=selected_address
+
+            order_instance.save()
 
             basket_items=request.user.cart.cart_item.filter(is_order_placed=False)
 
@@ -291,7 +302,7 @@ class OrderSummaryView(View):
         qs=request.user.orders.all().order_by("-created_at")
 
         return render(request,self.template_name,{"orders":qs})
-            
+
 @method_decorator([csrf_exempt],name="dispatch")
 class PaymentVerificationView(View):
 
@@ -319,3 +330,113 @@ class PaymentVerificationView(View):
 
 
         return redirect("order-summary")
+
+class UserProfileView(View):
+
+    template_name='profile.html'
+
+    form_class=UserProfileForm
+
+    def get(self, request,*args,**kwargs):
+
+        form_instance = self.form_class(instance=request.user)
+
+        context = {
+            'form': form_instance,
+            'addresses': request.user.userprofile.addresses.all() 
+        }
+
+        return render(request, self.template_name, context)
+
+    def post(self, request,*args,**kwargs):
+
+        form_data=request.POST
+
+        form_instance = self.form_class(form_data, instance=request.user)
+
+        if form_instance.is_valid():
+
+            form_instance.save()  
+
+            return redirect('user-profile')
+        
+        context = {
+            'form': form_instance,
+            'addresses': request.user.userprofile.addresses.all()
+        }
+        return render(request, self.template_name, context)
+    
+class AddressCreateView(View):
+
+    template_name='addressadd.html'
+
+    form_class=AddressForm
+
+    def get(self, request,*args,**kwargs):
+
+        form_instance=self.form_class()
+        
+        return render(request,self.template_name, {'form': form_instance})
+
+    def post(self, request,*args,**kwargs):
+
+        form_data=request.POST
+
+        form_instance = self.form_class(form_data)
+
+        if form_instance.is_valid():
+            
+            address = form_instance.save(commit=False)
+
+            user_profile=request.user.userprofile
+
+            address.user_profile= user_profile
+
+            address.save()  
+
+            return redirect('user-profile')  
+        
+        return render(request, self.template_name, {'form': form_instance})
+
+class AddressDeleteView(View):
+
+    def get(self,request,*args,**kwargs):
+
+        id=kwargs.get("pk")
+
+        address = Address.objects.get(id=id,user_profile=request.user.user_profile)
+
+        address.delete()
+
+        return redirect("user-profile")
+
+class AddtoWishListView(View):
+
+    def post(self,request,*args,**kwargs):
+
+        id=kwargs.get("pk")
+
+        book_object=get_object_or_404(Book,id=id)
+
+        if request.user.wishlist:
+
+            wishlist_object=request.user.wishlist
+
+            WishlistItem.objects.create(
+            book_object=book_object,
+            wishlist_object=wishlist_object
+            )
+
+        return redirect("book-detail",pk=book_object.id)
+    
+class WishListView(View):
+
+    template_name='wishlist.html'
+
+    def get(self,request,*args,**kwargs):
+
+        wishlist_object = request.user.wishlist
+
+        qs = wishlist_object.wishlist_item.all() if wishlist_object else []
+
+        return render(request,self.template_name,{"wishlistitems":qs})

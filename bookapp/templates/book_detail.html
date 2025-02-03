@@ -62,10 +62,10 @@
 <section class="py-12 bg-gray-50">
   <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
     <!-- Book Image -->
-    <div class="flex justify-center">
+    <div class="flex justify-center mt-10">
       {%if data.cover_image%}
 
-      <img alt="" src="{{data.cover_image.url}}" class="aspect-square h-full w-full object-cover" />
+      <img alt="" src="{{data.cover_image.url}}" class="aspect-square h-full w-[350px] object-cover" />
 
       {%else%}
 
@@ -84,14 +84,14 @@
         <p class="text-gray-800"><span class="font-semibold">Author:</span>{{data.author}}</p>
         <p class="text-gray-800"><span class="font-semibold">Number of Pages:</span> {{data.no_of_pages}}</p>
         <p class="text-gray-800"><span class="font-semibold">Publishing Date:</span> {{data.publication_date}}</p>
-        <p class="text-gray-800"><span class="font-semibold">Publisher:</span> DC Books</p>
-        <p class="text-gray-800"><span class="font-semibold">Language:</span> English</p>
+        <p class="text-gray-800"><span class="font-semibold">Publisher:</span> {{data.publisher}}</p>
+        <p class="text-gray-800"><span class="font-semibold">Language:</span> {{data.language}}</p>
         <p class="text-gray-800"><span class="font-semibold">ISBN:</span> {{data.isbn}}</p>
       </div>
 
       <div class="flex space-x-4 items-center">
-        <button class="px-6 py-2 bg-blue-700 text-white font-medium rounded hover:bg-blue-800">Paperback -
-          ₹{{data.price}}</button>
+        <p class="text-2xl font-bold text-black-700 py-4">
+          ₹{{data.price}}</p>
         <!-- <button class="px-6 py-2 bg-gray-200 text-gray-800 font-medium rounded hover:bg-gray-300">Kindle Edition - $270.00</button> -->
       </div>
 
@@ -114,47 +114,23 @@
             </svg>
             Add to Cart
           </button>
-          <button
-            class="bg-gray-200 flex gap-2 items-center  text-gray-800 px-6 py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-            </svg>
-            Wishlist
-          </button>
+          
         </div>
       </form>
-      
+      <form action="{% url 'addtowishlist' data.id %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button
+        class="bg-gray-200 flex gap-2 items-center  text-gray-800 px-6 py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+        </svg>
+        Wishlist
+      </button>
+      </form>
     </div>
   </div>
 </section>
-
-<!-- Footer Section -->
-<footer class="bg-gray-800 text-white py-8">
-  <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-    <div>
-      <h3 class="text-lg font-semibold">About</h3>
-      <p class="mt-2 text-gray-400">DC Books started in 1974...</p>
-    </div>
-    <div>
-      <h3 class="text-lg font-semibold">Quick Links</h3>
-      <ul class="mt-2 space-y-2">
-        <li><a href="#" class="text-gray-400 hover:text-white">Authors</a></li>
-        <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
-        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
-      </ul>
-    </div>
-    <div>
-      <h3 class="text-lg font-semibold">Follow Us</h3>
-      <div class="flex mt-2 space-x-4">
-        <a href="#" class="text-gray-400 hover:text-white">Facebook</a>
-        <a href="#" class="text-gray-400 hover:text-white">Twitter</a>
-        <a href="#" class="text-gray-400 hover:text-white">Instagram</a>
-      </div>
-    </div>
-  </div>
-  <div class="text-center text-gray-500 mt-8">&copy; 2024 Current Books India Pvt. Ltd. All rights reserved.</div>
-</footer>
 
 {%endblock%}

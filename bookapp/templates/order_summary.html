@@ -2,6 +2,7 @@
 
 {%block main_block%}
 
+{%if o in orders%}
 
 {%for o in orders%}
 
@@ -110,8 +111,9 @@
                 <h2 class="mb-2 text-base font-bold text-black">
                   Shipping Information
                 </h2>
-                <p class="mt-3 text-xs font-medium text-gray-700">{{o.address}}</p>
-                <p class="text-xs font-medium text-gray-700">
+                <p>{{ order.address.street }}, {{ order.address.city }}</p>
+                <p>{{ order.address.state }}, {{ order.address.pincode }}</p>
+                <p>{{ order.address.country }}</p>                
                     {{o.phone}}
                 </p>
                 <p class="text-xs font-medium text-gray-700">pin</p>
@@ -142,6 +144,12 @@
 
 
 {%endfor%}
+
+{%else%}
+
+No orders yet
+
+{%endif%}
 
 
 {%endblock%}

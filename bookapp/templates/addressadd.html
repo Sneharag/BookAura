@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+    <div class="min-h-screen bg-gray-50 py-8">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Add New Address</h2>
+            
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="bg-white shadow rounded-lg mb-6">
+                    <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+                        <h3 class="text-lg font-medium leading-6 text-gray-900">
+                            Address Information
+                        </h3>
+                    </div>
+                    
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="space-y-6">
+                            <!-- Street Address -->
+                            <div>
+                                <label for="id_street" class="block text-sm font-medium text-gray-700">
+                                    Street Address
+                                </label>
+                                <input 
+                                    type="text" 
+                                    name="street" 
+                                    id="id_street"
+                                    placeholder="Enter Street No./Name"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                >
+                            </div>
+    
+                            <!-- City and State Grid -->
+                            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                                <div>
+                                    <label for="id_city" class="block text-sm font-medium text-gray-700">
+                                        City
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        name="city" 
+                                        id="id_city"
+                                        placeholder="Enter City"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                    >
+                                </div>
+    
+                                <div>
+                                    <label for="id_state" class="block text-sm font-medium text-gray-700">
+                                        State
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        name="state" 
+                                        id="id_state"
+                                        placeholder="Enter State"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                    >
+                                </div>
+                            </div>
+    
+                            <!-- Pincode and Country Grid -->
+                            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                                <div>
+                                    <label for="id_pincode" class="block text-sm font-medium text-gray-700">
+                                        Pincode
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        name="pincode" 
+                                        id="id_pincode"
+                                        placeholder="Enter Pincode"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                    >
+                                </div>
+    
+                                <div>
+                                    <label for="id_country" class="block text-sm font-medium text-gray-700">
+                                        Country
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        name="country" 
+                                        id="id_country"
+                                        placeholder="Enter Country"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="flex justify-end space-x-3">
+                    <a 
+                        href="{% url 'user-profile' %}" 
+                        class="inline-flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    >
+                        Cancel
+                    </a>
+                    <button 
+                        type="submit" 
+                        class="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    >
+                        Save Address
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

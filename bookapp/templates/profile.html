@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block main_block %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Your Profile</h2>
+        
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Profile Information Card -->
+            <div class="bg-white shadow rounded-lg mb-6">
+                <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">
+                        Edit Profile Information
+                    </h3>
+                </div>
+                <div class="px-4 py-5 sm:p-6">
+                    <div class="space-y-6">
+                        <div>
+                            <label for="id_username" class="block text-sm font-medium text-gray-700">
+                                Username
+                            </label>
+                            <input 
+                                type="text" 
+                                name="username" 
+                                value="{{ form.username.value }}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                            >
+                        </div>
+
+                        <div>
+                            <label for="id_email" class="block text-sm font-medium text-gray-700">
+                                Email
+                            </label>
+                            <input 
+                                type="email" 
+                                name="email" 
+                                value="{{ form.email.value }}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                            >
+                        </div>
+
+                        <div>
+                            <label for="id_phone" class="block text-sm font-medium text-gray-700">
+                                Phone number
+                            </label>
+                            <input 
+                                type="tel" 
+                                name="phone" 
+                                value="{{ form.phone.value }}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end">
+                <button 
+                    type="submit" 
+                    class="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                    Save Changes
+                </button>
+            </div>
+        </form>
+
+        <!-- Addresses Card -->
+        <div class="bg-white shadow rounded-lg mt-6">
+            <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">
+                    Your Addresses
+                </h3>
+            </div>
+            <div class="px-4 py-5 sm:p-6">
+                <div class="space-y-4">
+                    {% for address in addresses %}
+                        <div class="border rounded-md p-4 hover:bg-gray-50">
+                            <h4 class="font-medium text-gray-900">{{ address.street }}</h4>
+                            <p class="mt-1 text-sm text-gray-600">
+                                {{ address.city }}, {{ address.state }} - {{ address.pincode }}
+                            </p>
+                            <p class="mt-1 text-sm text-gray-600">{{ address.country }}</p>
+                            <a 
+                        href="{% url 'delete-address' address.id %}" 
+                        class="inline-flex items-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                    >
+                        Delete Address
+                    </a>
+                        </div>
+                    {% empty %}
+                        <p class="text-sm text-gray-500">No addresses added yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="px-4 py-4 sm:px-6 border-t border-gray-200">
+                
+                <div class="flex justify-end">
+                    <a 
+                        href="{% url 'add-address' %}" 
+                        class="inline-flex items-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                    >
+                        Add New Address
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

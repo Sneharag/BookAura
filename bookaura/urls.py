@@ -25,12 +25,21 @@ urlpatterns = [
     path("signup/",views.SignUpView.as_view(),name="signup"),
     path("verify/otp/",views.VerifyEmailView.as_view(),name="verify-email"),
     path("signin/",views.LogInView.as_view(),name="signin"),
+
     path("index/",views.BookListView.as_view(),name="book-list"),
+    path("profile/",views.UserProfileView.as_view(),name='user-profile'),
+    path("profile/addaddress/",views.AddressCreateView.as_view(),name="add-address"),
+    path("deleteaddress/<int:pk>/",views.AddressDeleteView.as_view(),name="delete-address"),
+
     path("books/<int:pk>/",views.BookDetailView.as_view(),name="book-detail"),
     path("books/<int:pk>/cart/add/",views.AddtoCartView.as_view(),name="addtocart"),
+    path("wishlist/add/<int:pk>/",views.AddtoWishListView.as_view(),name='addtowishlist'),
+    path("wishlist/",views.WishListView.as_view(),name='wishlist'),
+
     path("cart/summary/",views.CartSummaryView.as_view(),name='cart-summary'),
-     path("books/<int:pk>/remove/",views.BasketItemDeleteView.as_view(),name="book-delete"),
+    path("books/<int:pk>/remove/",views.BasketItemDeleteView.as_view(),name="book-delete"),
     path("place/order/",views.PlaceOrderView.as_view(),name="place-order"),
+
     path("order/summary/",views.OrderSummaryView.as_view(),name="order-summary"),
     path("payment/verify/",views.PaymentVerificationView.as_view(),name="payment-verify"),
     
