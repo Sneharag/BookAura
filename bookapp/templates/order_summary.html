@@ -2,7 +2,7 @@
 
 {%block main_block%}
 
-{%if o in orders%}
+{%if orders%}
 
 {%for o in orders%}
 
@@ -95,10 +95,10 @@
                   Contact Information
                 </h2>
                 <p class="fontmedium mt-3 text-xs text-gray-700">
-                  Order Number: #{{o.order_id}}
+                  Order Number: #{{o.rzp_order_id}}
                 </p>
                 <p class="text-xs font-medium text-gray-700">
-                  Date: {{o.created_date|date}}
+                  Date: {{o.created_at|date}}
                 </p>
                 <button
                   type="button"
@@ -111,12 +111,11 @@
                 <h2 class="mb-2 text-base font-bold text-black">
                   Shipping Information
                 </h2>
-                <p>{{ order.address.street }}, {{ order.address.city }}</p>
-                <p>{{ order.address.state }}, {{ order.address.pincode }}</p>
-                <p>{{ order.address.country }}</p>                
-                    {{o.phone}}
-                </p>
-                <p class="text-xs font-medium text-gray-700">pin</p>
+                <p>{{ o.address.street }}, </p>
+                <p>{{ o.address.city }},{{ o.address.state }}, </p>
+                <p>{{ o.address.pincode }}</p>
+                <p>{{ o.address.country }}</p>                
+                  <p>+91{{o.phone}}</p>
               </div>
               <div class="py-6">
                 <h2 class="text-base font-bold text-black">

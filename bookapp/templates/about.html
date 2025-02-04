@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block main_block %}
+<section id="about" class="py-16 bg-gradient-to-r from-blue-50 to-green-100">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-extrabold text-teal-900 mb-6">About BookAura</h2>
+        
+        <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            Welcome to <strong class="text-teal-700">BookAura</strong>, your go-to online bookstore for discovering and purchasing the latest and
+             greatest books across various categories! Whether you're a casual reader, an aspiring author, 
+             or a book collector, we have something for everyone.
+        </p>
+
+        <div class="flex  justify-center gap-4">
+            <div class="w-full md:w-1/2 lg:w-1/3 p-6 bg-white rounded-lg shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-2xl">
+                <h3 class="text-2xl font-semibold text-teal-800 mb-4">Our Mission</h3>
+                <p class="text-lg text-gray-700">
+                    Our mission is simple – to bring books closer to you and make reading more accessible to book lovers of all kinds.
+                     Whether you're looking to unwind with fiction, learn from non-fiction, or find that perfect gift for someone special, 
+                     BookAura is here to provide you with a curated collection of high-quality titles.
+                </p>
+            </div>
+
+            <div class="w-full md:w-1/2 lg:w-1/3 p-6 bg-white rounded-lg shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-2xl">
+                <h3 class="text-2xl font-semibold text-teal-800 mb-4">Explore & Shop</h3>
+                <p class="text-lg text-gray-700">
+                    Browse our <strong class="text-teal-700">categories</strong> to find books tailored to your interests,
+                     or use the search feature to quickly find specific titles, authors, or genres. 
+                     You can also build your <strong class="text-teal-700">wishlist</strong> and easily add your favorite books to the cart when you're ready to make a purchase.
+                </p>
+            </div>
+
+            <div class="w-full md:w-1/2 lg:w-1/3 p-6 bg-white rounded-lg shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-2xl">
+                <h3 class="text-2xl font-semibold text-teal-800 mb-4 ">Why Choose Us?</h3>
+                <ul class="list-disc pl-5 text-lg text-gray-700 text-start">
+                    <li><strong class="text-teal-700">Wide Selection:</strong> Explore a wide range of categories including fiction, non-fiction, self-help, history, science, and more.</li>
+                    <!-- <li><strong class="text-teal-700">Downloadable PDF Books:</strong> Enjoy instant access to downloadable books in PDF format.</li> -->
+                    <li><strong class="text-teal-700">Personalized Recommendations:</strong> Our platform suggests books based on your reading history, preferences, and wishlist.</li>
+                    <li><strong class="text-teal-700">Secure Shopping Experience:</strong> We ensure safe and secure payment methods for hassle-free transactions.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+                Join the <strong class="text-teal-700">BookAura</strong> community today and immerse yourself in the wonderful world of books!
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

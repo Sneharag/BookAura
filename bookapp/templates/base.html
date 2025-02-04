@@ -21,8 +21,8 @@
               </div>
               <div class="hidden md:flex space-x-8">
                   <a href="{%url 'book-list'%}" class="text-gray-600 hover:text-gray-900">Home</a>
-                  <a href="#" class="text-gray-600 hover:text-gray-900">Shop</a>
-                  <a href="#" class="text-gray-600 hover:text-gray-900">About</a>
+                  <a href="{%url 'books'%}" class="text-gray-600 hover:text-gray-900">Shop</a>
+                  <a href="{%url 'about'%}" class="text-gray-600 hover:text-gray-900">About</a>
                   <a href="#" class="text-gray-600 hover:text-gray-900">Contact</a>
               </div>
               <div class="flex items-center space-x-4">
@@ -43,7 +43,7 @@
                             <li><a href="{%url 'user-profile'%}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a></li>
                             <li><a href="{%url 'wishlist'%}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Wishlist</a></li>
                             <li><a href="{%url 'order-summary'%}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">My Orders</a></li>
-                            <li><a href="" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a></li>
+                            <li><a href="{%url 'signout'%}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -89,13 +89,14 @@
           <div id="mobileMenu"
           class="hidden flex flex-col items-center space-y-4 py-4 bg-white shadow-md md:hidden transition-all">
           <a href="{%url 'book-list'%}" class="text-teal-600 hover:text-teal-900">Home</a>
-          <a href="#" class="text-teal-600 hover:text-teal-900">Shop</a>
-          <a href="#" class="text-teal-600 hover:text-teal-900">About</a>
+          <a href="{%url 'books'%}" class="text-teal-600 hover:text-teal-900">Shop</a>
+          <a href="{%url 'about'%}" class="text-teal-600 hover:text-teal-900">About</a>
           <a href="#" class="text-teal-600 hover:text-teal-900">Contact</a>
       </div>
 
       </div>
   </nav>
+  
   {%block main_block%}
 
   {%endblock%}
@@ -129,12 +130,12 @@
                   <div>
                       <h3 class="font-bold text-lg mb-4">LINKS</h3>
                       <ul class="text-sm">
-                          <li><a href="#" class="hover:text-gray-900">About Us</a></li>
+                          <li><a href="{%url 'about'%}" class="hover:text-gray-900">About Us</a></li>
                           <li><a href="#" class="hover:text-gray-900">Contact Us</a></li>
                           <li><a href="#" class="hover:text-gray-900">Feedback</a></li>
                           <li><a href="#" class="hover:text-gray-900">Help/FAQ</a></li>
-                          <li><a href="#" class="hover:text-gray-900">My Account</a></li>
-                          <li><a href="#" class="hover:text-gray-900">My Orders</a></li>
+                          <li><a href="{%url 'user-profile'%}" class="hover:text-gray-900">My Account</a></li>
+                          <li><a href="{%url 'order-summary'%}" class="hover:text-gray-900">My Orders</a></li>
                       </ul>
                   </div>
               </div>
@@ -149,6 +150,11 @@
       </footer>
       
 </body>
+<script>
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};
+    window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";
+    script.id="WB3qeGqDSAvcUyd9EtUEu";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+    </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const hamburger = document.getElementById("hamburger");

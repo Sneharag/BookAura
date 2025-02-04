@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
 
-from django.views.generic import View
+from django.views.generic import View,TemplateView
 
 from bookapp.forms import SignUpForm,LoginForm,OrderForm,UserProfileForm,AddressForm
 
-from bookapp.models import User,Book,BasketItem,OrderItem,Order,WishlistItem,Address,UserProfile
+from bookapp.models import User,Book,BasketItem,OrderItem,Order,WishlistItem,Address,Category
 
 from django.core.mail import send_mail
 
@@ -18,7 +18,15 @@ from django.utils.decorators import method_decorator
 
 from django.contrib import messages
 
+from bookapp.decorators import signin_required
+
+from django.db.models import Q
+
+from django.views.decorators.cache import never_cache
+
 from decouple import config
+
+decs=[signin_required,never_cache]
 
 RZP_KEY_ID=config('RZP_KEY_ID')
 
@@ -67,6 +75,7 @@ class SignUpView(View):
             send_otp_email(user_object)
 
             return redirect("verify-email")
+
         
         return render(request,self.template_name,{"form":form_instance})
 
@@ -146,6 +155,33 @@ class BookListView(View):
 
         return render(request,self.template_name,{"data":qs})
     
+class BooksView(View):
+
+    template_name="books.html"
+
+    def get(self,request,*args,**kwargs):
+
+        category = request.GET.get('category')  
+    
+        categories = Category.objects.all()
+
+        search_text=request.GET.get("filter")
+    
+        if category:
+        
+            books = Book.objects.filter(category_object=category) 
+        else:
+            
+            books = Book.objects.all() 
+
+        if search_text:
+
+            books=books.filter(Q(title__contains=search_text)|Q(language__contains=search_text)|Q(author__contains=search_text))
+
+        return render(request,self.template_name,{"data":books,'categories': categories,
+                    'selected_category': int(category) if category else None})
+
+@method_decorator(decs,name="dispatch")
 class BookDetailView(View):
 
     template_name="book_detail.html"
@@ -158,13 +194,14 @@ class BookDetailView(View):
 
         return render(request,self.template_name,{"data":qs})
     
+@method_decorator(decs,name="dispatch")
 class AddtoCartView(View):
 
     def post(self,request,*args,**kwargs):
 
         id=kwargs.get("pk")
 
-        quantity=request.POST.get("quantity")
+        quantity=request.POST.get("quantity",1)
 
         book_object=Book.objects.get(id=id)
 
@@ -194,6 +231,7 @@ class CartSummaryView(View):
 
         return render(request,self.template_name,{"basketitems":qs,"basket_total":basket_total,"basket_item_count":basket_item_count})
 
+@method_decorator(decs,name="dispatch")
 class BasketItemDeleteView(View):
 
     def get(self,request,*args,**kwargs):
@@ -207,6 +245,7 @@ class BasketItemDeleteView(View):
         return redirect("cart-summary")
     
 import razorpay
+@method_decorator(decs,name="dispatch")
 class PlaceOrderView(View):
 
     template_name="place_order.html"
@@ -365,7 +404,7 @@ class UserProfileView(View):
             'addresses': request.user.userprofile.addresses.all()
         }
         return render(request, self.template_name, context)
-    
+
 class AddressCreateView(View):
 
     template_name='addressadd.html'
@@ -392,7 +431,7 @@ class AddressCreateView(View):
 
             address.user_profile= user_profile
 
-            address.save()  
+            address.save()
 
             return redirect('user-profile')  
         
@@ -410,6 +449,7 @@ class AddressDeleteView(View):
 
         return redirect("user-profile")
 
+@method_decorator(decs,name="dispatch")
 class AddtoWishListView(View):
 
     def post(self,request,*args,**kwargs):
@@ -429,6 +469,7 @@ class AddtoWishListView(View):
 
         return redirect("book-detail",pk=book_object.id)
     
+@method_decorator(decs,name="dispatch")
 class WishListView(View):
 
     template_name='wishlist.html'
@@ -440,3 +481,30 @@ class WishListView(View):
         qs = wishlist_object.wishlist_item.all() if wishlist_object else []
 
         return render(request,self.template_name,{"wishlistitems":qs})
+    
+class WishListDelete(View):
+
+    def get(self,request,*args,**kwargs):
+
+        id=kwargs.get("pk")
+
+        wishlist_item=WishlistItem.objects.filter(id=id,wishlist_object=request.user.wishlist)
+
+        wishlist_item.delete()
+
+        return redirect("wishlist")
+
+
+class SignOutView(View):
+
+    def get(self,request,*args,**kwargs):
+
+        logout(request)
+
+        return redirect("signin")
+
+class AboutPageView(TemplateView):
+
+    template_name = 'about.html'
+
+
